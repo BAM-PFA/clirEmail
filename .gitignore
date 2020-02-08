@@ -1,0 +1,5 @@
+.DS_*
+__py*
+secrets/*
+!secrets/.gitkeep
+!secrets/sample_*
