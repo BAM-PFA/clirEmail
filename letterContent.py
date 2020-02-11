@@ -13,26 +13,16 @@ class Email:
 		self.dates = dates
 
 		self.PAR_1 = 'Dear [FULL NAME],'
-		self.PAR_2 = '''
-					\nThe Berkeley Art Museum and Pacific Film Archive (BAMPFA) has received a grant [link to project blog post] from the Council on Library and Information Resources (CLIR) to digitize nearly 800 audio cassette tapes of guest speakers at the Pacific Film Archive, recorded between 1976 and 1986. As part of this project, we have digitized one or more audio recordings in which you were a participant.\n
-					'''
-		self.PAR_3 = '''
-					The following recording date(s) represent your contributions to this collection that have been digitized:\n
-					'''
+		self.PAR_2 = '''The Berkeley Art Museum and Pacific Film Archive (BAMPFA) has received a grant [link to project blog post] from the Council on Library and Information Resources (CLIR) to digitize nearly 800 audio cassette tapes of guest speakers at the Pacific Film Archive, recorded between 1976 and 1986. As part of this project, we have digitized one or more audio recordings in which you were a participant.'''
+		self.PAR_3 = '''The following recording date(s) represent your contributions to this collection that have been digitized:'''
 		self.PAR_4 = '' # list of event dates
-		self.PAR_5 = '\n\nThe following film titles were discussed in the relevant recordings:\n\n'
+		self.PAR_5 = 'The following film titles were discussed in the relevant recordings:'
 		self.PAR_6 = '' # List of film titles
-		self.PAR_7 = '''
-					\nAs part of the educational mission of this project, BAMPFA respectfully requests your permission to make these recordings available online via educational partners such as the Internet Archive and/or the BAMPFA website. This project also enables us to preserve these works for researchers into the future as digital formats change. Please note that speakers and/or their heirs retain copyright to their content unless they explicitly waive copyright.\n
-					'''
-		self.PAR_8 = '''
-					Please complete this two-question Google form [link] to record your response to our request.\n
-					'''
-		self.PAR_9 = '''
-					Thank you for participating in this exciting project!\n\n
-					'''
-		self.PAR_10 = 'Sincerely,\n'
-		self.PAR_11 = 'Michael Campos-Quinn and Jason Sanders\n'
+		self.PAR_7 = '''As part of the educational mission of this project, BAMPFA respectfully requests your permission to make these recordings available online via educational partners such as the Internet Archive and/or the BAMPFA website. This project also enables us to preserve these works for researchers into the future as digital formats change. Please note that speakers and/or their heirs retain copyright to their content unless they explicitly waive copyright.\n'''
+		self.PAR_8 = '''Please complete this two-question Google form [link] to record your response to our request.'''
+		self.PAR_9 = '''Thank you for participating in this exciting project!'''
+		self.PAR_10 = 'Sincerely,'
+		self.PAR_11 = 'Michael Campos-Quinn and Jason Sanders'
 		self.PAR_12 = 'BAMPFA Film Library and Study Center'
 
 		self.allParagraphs = None
