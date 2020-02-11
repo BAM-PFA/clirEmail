@@ -8,10 +8,11 @@ import os.path
 import pickle
 
 from letterContent import Email
-from secrets.other import FOLDER_ID
+from secrets.other import FOLDER_ID,FORM_LINK
 
 # all modified from 
 # https://github.com/googleapis/google-api-python-client
+# https://developers.google.com/docs/api/quickstart/python
 
 # If modifying these scopes, delete the file token.pickle.
 SCOPES = [
@@ -46,19 +47,84 @@ def login():
 
 	return g_docs, g_drive
 
+def insert_form_link(par):
+	par = par.replace('[URL]',FORM_LINK)
+	insert = [
+			 {
+				'insertText': {
+					'location': {
+						'index': 1,
+					},
+					'text': par
+				}
+			},
+			{
+	            'updateTextStyle': {
+	                'range': {
+	                    'startIndex': 47,
+	                    'endIndex': 146
+	                },
+	                'textStyle': {
+	                    'link': {
+	                        'url': FORM_LINK
+	                    }
+	                },
+	                'fields': 'link'
+	            }
+	        }
+		]
+	return insert
+
+def insert_blog_link(par):
+	insert = [
+			 {
+				'insertText': {
+					'location': {
+						'index': 1,
+					},
+					'text': par
+				}
+			},
+			{
+	            'updateTextStyle': {
+	                'range': {
+	                    'startIndex': 63,
+	                    'endIndex': 79
+	                },
+	                'textStyle': {
+	                    'link': {
+	                        'url': 'https://bampfa.org/news/off-the-shelves-digitizing-filmmaker-recordings-cassette-tape'
+	                    }
+	                },
+	                'fields': 'link'
+	            }
+	        }
+		]
+	return insert
+
 def insert_paragraph(par,service,docID):
 	print(par)
-	insert = [
-		 {
-			'insertText': {
-				'location': {
-					'index': 1,
-				},
-				'text': par
+	# DO SOME REALLY HACKY INSERT OF LINKS
+	# THERE HAS TO BE A BETTER WAY TO DO THIS
+	# I JUST DON'T HAVE TIME TO FIGURE OUT HOW TO 
+	# CALCULATE VARIABLE INDEXES TO UPDATE LINKS.
+	if par.startswith('Please complete'):
+		insert = insert_form_link(par)
+	elif par.startswith('The Berkeley Art'):
+		insert = insert_blog_link(par)
+	else:
+		insert = [
+			 {
+				'insertText': {
+					'location': {
+						'index': 1,
+					},
+					'text': par
+				}
 			}
-		}
-	]
+		]
 
+	print(insert)
 	service.documents().batchUpdate(
 		documentId=docID,
 		body={'requests':insert}
@@ -92,6 +158,12 @@ def parse_paragraphs(person):
 
 
 def main():
+	'''
+	Taking a CSV of names with associated dates and film titles, 
+	create a form letter that can be emailed to people or their estates.
+	Use the Drive and Docs APIs to create documents and organize them
+	into a project Drive folder.
+	'''
 	g_docs, g_drive = login()
 
 	with open('contacts.csv','r') as f:
