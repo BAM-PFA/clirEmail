@@ -102,12 +102,12 @@ def insert_blog_link(par):
 		]
 	return insert
 
-def insert_paragraph(par,service,docID):
-	print(par)
+def build_insert(par,insertList=[]):
 	# DO SOME REALLY HACKY INSERT OF LINKS
 	# THERE HAS TO BE A BETTER WAY TO DO THIS
 	# I JUST DON'T HAVE TIME TO FIGURE OUT HOW TO 
 	# CALCULATE VARIABLE INDEXES TO UPDATE LINKS.
+	print(par)
 	if par.startswith('Please complete'):
 		insert = insert_form_link(par)
 	elif par.startswith('The Berkeley Art'):
@@ -124,10 +124,15 @@ def insert_paragraph(par,service,docID):
 			}
 		]
 
-	print(insert)
+	for x in insert:
+		insertList.append(x)
+
+	return insertList
+
+def insert_request(insertList,service,docID):
 	service.documents().batchUpdate(
 		documentId=docID,
-		body={'requests':insert}
+		body={'requests':insertList}
 		).execute()
 
 def parse_paragraphs(person):
@@ -183,11 +188,14 @@ def main():
 			# print(parent)
 			# print(_id)
 
+			insertList = []
 			for paragraph in completeEmail.reversedParagraphs:
 				# print(par)
 				if paragraph != None:
-					insert_paragraph(paragraph, g_docs, docID)
+					insertList = build_insert(paragraph, insertList)
 
+			# ACTUALLY ADD CONTENT TO THE DOC
+			insert_request(insertList,g_docs,docID)
 			# MOVE THE COMPLETE DOCUMENT TO THE PROJECT FOLDER
 			move = g_drive.files().update(
 				fileId=docID,
