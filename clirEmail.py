@@ -6,6 +6,7 @@ import ast
 import csv
 import os.path
 import pickle
+import time
 
 from letterContent import Email
 from secrets.other import FOLDER_ID,FORM_LINK
@@ -138,6 +139,7 @@ def insert_request(insertList,service,docID):
 def parse_paragraphs(person):
 	# take in a row from the CSV of people to contact
 	# return a completed Email class
+	# print(person)
 	name = person[0]
 	deceased = person[1]
 	titles = ast.literal_eval(person[2])
@@ -203,6 +205,8 @@ def main():
 				fields='id, parents'
 				).execute()
 			print(move)
+
+			time.sleep(10)
 
 if __name__ == '__main__':
 	main()
